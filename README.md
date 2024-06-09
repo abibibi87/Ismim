@@ -1,4 +1,4 @@
-# ismim
+# Ismim aplikasi edukasi anak
 
 A new Flutter project.
 
