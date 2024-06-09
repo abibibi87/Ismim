@@ -1,0 +1,199 @@
+name: ismim
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.5 <4.0.0'
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  just_audio: ^0.9.38
+  flutter_screenutil: ^5.9.1
+  lottie: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^4.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
+  min_sdk_android: 16
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+     - assets/
+     - assets/Logo_color.png
+     - assets/Home1.jpg
+     - assets/hlm_1.jpg
+     - assets/hlm_2.jpg
+     - assets/hlm_3.jpg
+     - assets/hlm_4.jpg
+     - assets/hlm_5.jpg
+     - assets/hlm_6.jpg
+     - assets/hlm_7.jpg
+     - assets/hlm_8.jpg
+     - assets/hlm_9.jpg
+     - assets/hlm_10.jpg
+     - assets/hlm_11.jpg
+     - assets/hlm_12.jpg
+     - assets/hlm_13.jpg
+     - assets/hlm_14.jpg
+     - assets/hlm_15.jpg
+     - assets/hlm_16.jpg
+     - assets/hlm_17.jpg
+     - assets/hlm_18.jpg
+     - assets/hlm_19.jpg
+     - assets/hlm_20.jpg
+     - assets/allertt.png
+     - assets/about.png
+     - assets/sinopsis.png
+     - assets/ttgprofil.png
+     - assets/tombol/button_about.png
+     - assets/tombol/button_play.png
+     - assets/tombol/button_volume.png
+     - assets/tombol/button_back.png
+     - assets/tombol/button_next.png
+     - assets/tombol/button_home.png
+     - assets/tombol/button_exit.png
+     - assets/tombol/button_mute.png
+     - assets/tombol/button_iya.png
+     - assets/tombol/button_tidak.png
+     - assets/tombol/profil.png
+     - assets/tombol/sip.png
+     - assets/sound/home.mp3
+     - assets/sound/cerita.mp3
+     - assets/sound/paperplay.mp3
+     - assets/sound/page1.mp3
+     - assets/sound/page2.mp3
+     - assets/sound/page3.mp3
+     - assets/sound/page4.mp3
+     - assets/sound/page5.mp3
+     - assets/sound/page6.mp3
+     - assets/sound/page7.mp3
+     - assets/sound/page8.mp3
+     - assets/sound/page9.mp3
+     - assets/sound/page10.mp3
+     - assets/sound/page11.mp3
+     - assets/sound/page12.mp3
+     - assets/sound/page13.mp3
+     - assets/sound/page14.mp3
+     - assets/sound/page15.mp3
+     - assets/sound/page16.mp3
+     - assets/sound/page17.mp3
+     - assets/sound/page18.mp3
+     - assets/sound/page19.mp3
+     - assets/animation/Adam.png
+     - assets/animation/duduk.png
+     - assets/animation/Allah01.png
+     - assets/animation/cahaya.png
+     - assets/animation/jibril.png
+     - assets/animation/nabibg.png
+     - assets/animation/Angkat.png
+     - assets/animation/tangankanan.png
+     - assets/animation/tangankiri.png
+     - assets/animation/Nabi.png
+     - assets/animation/buroq.png
+     - assets/animation/terbang.png
+     - assets/animation/Buroq1.png
+     - assets/animation/page1.json
+     - assets/animation/awan5.png
+     - assets/animation/awan4.png
+     - assets/animation/awan3.png
+     - assets/animation/awan2.png
+     - assets/animation/awan1.png
+     - assets/text/1.png
+     - assets/text/2.png
+     - assets/text/3.png
+     - assets/text/4.png
+     - assets/text/5.png
+     - assets/text/6.png
+     - assets/text/7.png
+     - assets/text/8.png
+     - assets/text/9.png
+     - assets/text/10.png
+     - assets/text/11.png
+     - assets/text/12.png
+     - assets/text/13.png
+     - assets/text/14.png
+     - assets/text/15.png
+     - assets/text/16.png
+     - assets/text/17.png
+     - assets/text/18.png
+     - assets/text/Isra.png
+     - assets/text/TulisNabi.png
+  #  - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
