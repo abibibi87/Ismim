@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:ismim/page19.dart';
 import 'package:ismim/homepage.dart';
@@ -11,7 +12,7 @@ class PageEighTeen extends StatefulWidget {
 }
 
 class _PageEighTeenState extends State<PageEighTeen>
-    with TickerProviderStateMixin {
+    with WidgetsBindingObserver, TickerProviderStateMixin {
   AudioPlayer? audioPlayer;
   bool isPlaying = false;
   late AnimationController _animationController;
@@ -20,6 +21,8 @@ class _PageEighTeenState extends State<PageEighTeen>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    WidgetsBinding.instance.addObserver(this);
     audioPlayer = AudioPlayer();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
@@ -38,6 +41,29 @@ class _PageEighTeenState extends State<PageEighTeen>
 
     _animationController.forward();
     _animationController.repeat();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (ModalRoute.of(context)?.isCurrent ?? false) {
+      playAudio();
+    } else {
+      stopAudio();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (ModalRoute.of(context)?.isCurrent ?? false) {
+        playAudio();
+      }
+    } else if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      stopAudio();
+    }
   }
 
   void playAudio() async {
@@ -59,6 +85,7 @@ class _PageEighTeenState extends State<PageEighTeen>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _animationController.reset();
     _animationController.dispose();
     audioPlayer?.dispose();
@@ -69,205 +96,203 @@ class _PageEighTeenState extends State<PageEighTeen>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/hlm_18.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 10,
-                left: 10,
-                child: IconButton(
-                  icon: Image.asset('assets/tombol/button_volume.png'),
-                  onPressed: () {
-                    if (isPlaying) {
-                      stopAudio();
-                    } else {
-                      playAudio();
-                    }
-                  },
-                  iconSize: width * 0.1,
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: IconButton(
-                  icon: Image.asset('assets/tombol/button_home.png'),
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const HomePage(),
-                        transitionDuration: const Duration(seconds: 3),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        },
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
-                  },
-                  iconSize: width * 0.1,
-                ),
-              ),
-              Positioned(
-                bottom: 10,
-                right: 10,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const PageNineeTeen(),
-                        transitionDuration: const Duration(seconds: 3),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          var begin = const Offset(0.0, 1.0);
-                          var end = Offset.zero;
-                          var curve = Curves.ease;
-
-                          var tween = Tween(begin: begin, end: end)
-                              .chain(CurveTween(curve: curve));
-
-                          return SlideTransition(
-                            position: animation.drive(tween),
-                            child: child,
-                          );
-                        },
-                      ),
-                    ).then((value) {
-                      if (ModalRoute.of(context)?.settings.name == '/') {
-                        stopAudio();
-                      }
-                    });
-                  },
-                  icon: Image.asset('assets/tombol/button_next.png'),
-                  iconSize: width * 0.1,
-                ),
-              ),
-              Positioned(
-                bottom: 10,
-                left: 10,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Image.asset('assets/tombol/button_back.png'),
-                  iconSize: width * 0.1,
-                ),
-              ),
-              Positioned(
-                top: 120,
-                left: 200,
-                child: Image.asset(
-                  'assets/animation/awan3.png',
-                  width: 800,
-                  height: 800,
-                ),
-              ),
-              Positioned(
-                top: 120,
-                left: 500,
-                child: Image.asset(
-                  'assets/animation/awan4.png',
-                  width: 800,
-                  height: 800,
-                ),
-              ),
-              Positioned(
-                top: 120,
-                left: 60,
-                child: Image.asset(
-                  'assets/animation/awan1.png',
-                  width: 800,
-                  height: 800,
-                ),
-              ),
-              Positioned(
-                top: -80,
-                left: 200,
-                child: Image.asset(
-                  'assets/text/16.png',
-                  width: 500,
-                  height: 500,
-                ),
-              ),
-              Positioned(
-                top: 150,
-                left: 800,
-                child: Image.asset(
-                  'assets/text/15.png',
-                  width: 500,
-                  height: 500,
-                ),
-              ),
-              Positioned(
-                top: 100,
-                left: 770,
-                child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _animation.value,
-                      child: Image.asset(
-                        'assets/animation/cahaya.png',
-                        width: 200,
-                        height: 200,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Positioned(
-                top: 100,
-                left: 770,
-                child: Image.asset(
-                  'assets/animation/Allah01.png',
-                  width: 200,
-                  height: 200,
-                ),
-              ),
-              Positioned(
-                top: 280,
-                left: 280,
-                child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _animation.value,
-                      child: Image.asset(
-                        'assets/animation/cahaya.png',
-                        width: 120,
-                        height: 120,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Positioned(
-                top: 260,
-                left: 220,
-                child: Image.asset(
-                  'assets/animation/nabibg.png',
-                  width: 200,
-                  height: 200,
-                ),
-              ),
-            ],
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Image.asset(
+              'assets/hlm_18.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: IconButton(
+              icon: Image.asset('assets/tombol/button_volume.png'),
+              onPressed: () {
+                if (isPlaying) {
+                  stopAudio();
+                } else {
+                  playAudio();
+                }
+              },
+              iconSize: width * 0.1,
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: IconButton(
+              icon: Image.asset('assets/tombol/button_home.png'),
+              onPressed: () {
+                stopAudio();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const HomePage(),
+                    transitionDuration: const Duration(seconds: 3),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              iconSize: width * 0.1,
+            ),
+          ),
+          Positioned(
+            top: 120,
+            left: 200,
+            child: Image.asset(
+              'assets/animation/awan3.png',
+              width: 800,
+              height: 800,
+            ),
+          ),
+          Positioned(
+            top: 120,
+            left: 500,
+            child: Image.asset(
+              'assets/animation/awan4.png',
+              width: 800,
+              height: 800,
+            ),
+          ),
+          Positioned(
+            top: 120,
+            left: 60,
+            child: Image.asset(
+              'assets/animation/awan1.png',
+              width: 800,
+              height: 800,
+            ),
+          ),
+          Positioned(
+            top: -80,
+            left: 200,
+            child: Image.asset(
+              'assets/text/16.png',
+              width: 500,
+              height: 500,
+            ),
+          ),
+          Positioned(
+            top: 150,
+            left: 800,
+            child: Image.asset(
+              'assets/text/15.png',
+              width: 500,
+              height: 500,
+            ),
+          ),
+          Positioned(
+            top: 100,
+            left: 770,
+            child: AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Transform.scale(
+                  scale: _animation.value,
+                  child: Image.asset(
+                    'assets/animation/cahaya.png',
+                    width: 200,
+                    height: 200,
+                  ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+            top: 100,
+            left: 770,
+            child: Image.asset(
+              'assets/animation/Allah01.png',
+              width: 200,
+              height: 200,
+            ),
+          ),
+          Positioned(
+            top: 280,
+            left: 280,
+            child: AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Transform.scale(
+                  scale: _animation.value,
+                  child: Image.asset(
+                    'assets/animation/cahaya.png',
+                    width: 120,
+                    height: 120,
+                  ),
+                );
+              },
+            ),
+          ),
+          Positioned(
+            top: 260,
+            left: 220,
+            child: Image.asset(
+              'assets/animation/nabibg.png',
+              width: 200,
+              height: 200,
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: IconButton(
+              onPressed: () {
+                stopAudio();
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const PageNineeTeen(),
+                    transitionDuration: const Duration(seconds: 3),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  ),
+                ).then((value) {
+                  if (ModalRoute.of(context)?.settings.name == '/') {
+                    stopAudio();
+                  }
+                });
+              },
+              icon: Image.asset('assets/tombol/button_next.png'),
+              iconSize: width * 0.1,
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 10,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Image.asset('assets/tombol/button_back.png'),
+              iconSize: width * 0.1,
+            ),
+          ),
+        ],
       ),
     );
   }

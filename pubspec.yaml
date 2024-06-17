@@ -72,27 +72,27 @@ flutter:
   assets:
      - assets/
      - assets/Logo_color.png
-     - assets/Home1.jpg
-     - assets/hlm_1.jpg
-     - assets/hlm_2.jpg
-     - assets/hlm_3.jpg
-     - assets/hlm_4.jpg
-     - assets/hlm_5.jpg
+     - assets/Home1.png
+     - assets/hlm_1.png
+     - assets/hlm_2.png
+     - assets/hlm_3.png
+     - assets/hlm_4.png
+     - assets/hlm_5.png
      - assets/hlm_6.jpg
      - assets/hlm_7.jpg
-     - assets/hlm_8.jpg
+     - assets/hlm_8.png
      - assets/hlm_9.jpg
      - assets/hlm_10.jpg
      - assets/hlm_11.jpg
-     - assets/hlm_12.jpg
-     - assets/hlm_13.jpg
-     - assets/hlm_14.jpg
-     - assets/hlm_15.jpg
+     - assets/hlm_12.png
+     - assets/hlm_13.png
+     - assets/hlm_14.png
+     - assets/hlm_15.png
      - assets/hlm_16.jpg
      - assets/hlm_17.jpg
-     - assets/hlm_18.jpg
-     - assets/hlm_19.jpg
-     - assets/hlm_20.jpg
+     - assets/hlm_18.png
+     - assets/hlm_19.png
+     - assets/hlm_20.png
      - assets/allertt.png
      - assets/about.png
      - assets/sinopsis.png

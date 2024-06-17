@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:ismim/page14.dart';
 import 'package:ismim/homepage.dart';
@@ -11,7 +12,7 @@ class PageThirTeen extends StatefulWidget {
 }
 
 class _PageThirTeenState extends State<PageThirTeen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late AudioPlayer audioPlayer;
   bool isPlaying = false;
   late AnimationController _awan1Controller;
@@ -28,6 +29,8 @@ class _PageThirTeenState extends State<PageThirTeen>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     audioPlayer = AudioPlayer();
     audioPlayer.setLoopMode(LoopMode.off);
     Future.delayed(const Duration(milliseconds: 2500), () {
@@ -100,6 +103,29 @@ class _PageThirTeenState extends State<PageThirTeen>
     ));
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (ModalRoute.of(context)?.isCurrent ?? false) {
+      playAudio();
+    } else {
+      stopAudio();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (ModalRoute.of(context)?.isCurrent ?? false) {
+        playAudio();
+      }
+    } else if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      stopAudio();
+    }
+  }
+
   void playAudio() async {
     await audioPlayer.setAsset('assets/sound/page13.mp3');
     await audioPlayer.play();
@@ -117,11 +143,13 @@ class _PageThirTeenState extends State<PageThirTeen>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _awan1Controller.dispose();
     _awan2Controller.dispose();
     _awan3Controller.dispose();
     _awan4Controller.dispose();
     _awan5Controller.dispose();
+    audioPlayer.dispose();
     super.dispose();
   }
 
@@ -129,169 +157,173 @@ class _PageThirTeenState extends State<PageThirTeen>
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/hlm_13.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: -195,
-                left: 100,
-                child: SlideTransition(
-                  position: _awan1Animation,
-                  child: Image.asset(
-                    'assets/animation/awan1.png',
-                    width: 400,
-                    height: 400,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: -180,
-                left: 1100,
-                child: SlideTransition(
-                  position: _awan2Animation,
-                  child: Image.asset(
-                    'assets/animation/awan3.png',
-                    width: 400,
-                    height: 400,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: -185,
-                left: 300,
-                child: SlideTransition(
-                  position: _awan3Animation,
-                  child: Image.asset(
-                    'assets/animation/awan2.png',
-                    width: 400,
-                    height: 400,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: -190,
-                left: 900,
-                child: SlideTransition(
-                  position: _awan4Animation,
-                  child: Image.asset(
-                    'assets/animation/awan4.png',
-                    width: 400,
-                    height: 400,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: -185,
-                left: 600,
-                child: SlideTransition(
-                  position: _awan5Animation,
-                  child: Image.asset(
-                    'assets/animation/awan5.png',
-                    width: 400,
-                    height: 400,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: IconButton(
-                  icon: Image.asset('assets/tombol/button_home.png'),
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const HomePage(),
-                        transitionDuration: const Duration(seconds: 3),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        },
-                      ),
-                      (Route<dynamic> route) => false,
-                    );
-                  },
-                  iconSize: width * 0.1,
-                ),
-              ),
-              Positioned(
-                top: 10,
-                left: 10,
-                child: IconButton(
-                  icon: Image.asset('assets/tombol/button_volume.png'),
-                  onPressed: () {
-                    if (isPlaying) {
-                      stopAudio();
-                    } else {
-                      playAudio();
-                    }
-                  },
-                  iconSize: width * 0.1,
-                ),
-              ),
-              Positioned(
-                bottom: 10,
-                left: 10,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Image.asset('assets/tombol/button_back.png'),
-                  iconSize: width * 0.1,
-                ),
-              ),
-              Positioned(
-                bottom: 10,
-                right: 10,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) =>
-                            const PageFourTeen(),
-                        transitionDuration: const Duration(seconds: 3),
-                        transitionsBuilder:
-                            (context, animation, secondaryAnimation, child) {
-                          var begin = const Offset(0.0, 1.0);
-                          var end = Offset.zero;
-                          var curve = Curves.ease;
-
-                          var tween = Tween(begin: begin, end: end)
-                              .chain(CurveTween(curve: curve));
-
-                          return SlideTransition(
-                            position: animation.drive(tween),
-                            child: child,
-                          );
-                        },
-                      ),
-                    ).then((value) {
-                      if (ModalRoute.of(context)?.settings.name == '/') {
-                        stopAudio();
-                      }
-                    });
-                  },
-                  icon: Image.asset('assets/tombol/button_next.png'),
-                  iconSize: width * 0.1,
-                ),
-              ),
-            ],
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Image.asset(
+              'assets/hlm_13.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          Positioned(
+            top: -195,
+            left: 100,
+            child: SlideTransition(
+              position: _awan1Animation,
+              child: Image.asset(
+                'assets/animation/awan1.png',
+                width: width * 0.4,
+                height: width * 0.4,
+              ),
+            ),
+          ),
+          Positioned(
+            top: -180,
+            left: 1100,
+            child: SlideTransition(
+              position: _awan2Animation,
+              child: Image.asset(
+                'assets/animation/awan3.png',
+                width: width * 0.4,
+                height: width * 0.4,
+              ),
+            ),
+          ),
+          Positioned(
+            top: -185,
+            left: 300,
+            child: SlideTransition(
+              position: _awan3Animation,
+              child: Image.asset(
+                'assets/animation/awan2.png',
+                width: width * 0.4,
+                height: width * 0.4,
+              ),
+            ),
+          ),
+          Positioned(
+            top: -190,
+            left: 900,
+            child: SlideTransition(
+              position: _awan4Animation,
+              child: Image.asset(
+                'assets/animation/awan4.png',
+                width: width * 0.4,
+                height: width * 0.4,
+              ),
+            ),
+          ),
+          Positioned(
+            top: -185,
+            left: 600,
+            child: SlideTransition(
+              position: _awan5Animation,
+              child: Image.asset(
+                'assets/animation/awan5.png',
+                width: width * 0.4,
+                height: width * 0.4,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: IconButton(
+              icon: Image.asset('assets/tombol/button_home.png'),
+              onPressed: () {
+                stopAudio();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const HomePage(),
+                    transitionDuration: const Duration(seconds: 3),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              iconSize: width * 0.1,
+            ),
+          ),
+          Positioned(
+            top: 10,
+            left: 10,
+            child: IconButton(
+              icon: Image.asset('assets/tombol/button_volume.png'),
+              onPressed: () {
+                if (isPlaying) {
+                  stopAudio();
+                } else {
+                  playAudio();
+                }
+              },
+              iconSize: width * 0.1,
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 10,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Image.asset('assets/tombol/button_back.png'),
+              iconSize: width * 0.1,
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const PageFourTeen(),
+                    transitionDuration: const Duration(seconds: 3),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+
+                      return SlideTransition(
+                        position: animation.drive(tween),
+                        child: child,
+                      );
+                    },
+                  ),
+                ).then((value) {
+                  if (ModalRoute.of(context)?.settings.name == '/') {
+                    stopAudio();
+                  }
+                });
+              },
+              icon: Image.asset('assets/tombol/button_next.png'),
+              iconSize: width * 0.1,
+            ),
+          ),
+        ],
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: HomePage(),
+    debugShowCheckedModeBanner: false,
+  ));
 }

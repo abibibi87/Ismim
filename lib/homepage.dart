@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    // Set the app to full screen
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
     audioPlayer = AudioPlayer();
@@ -50,8 +49,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _controller1.dispose();
     _controller2.dispose();
     audioPlayer.dispose();
-    // Restore the system UI overlays
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
 
@@ -82,7 +79,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: <Widget>[
           Positioned.fill(
             child: Image.asset(
-              'assets/Home1.jpg',
+              'assets/Home1.png',
               fit: BoxFit.cover,
             ),
           ),
